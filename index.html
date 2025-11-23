@@ -1,0 +1,404 @@
+﻿<!doctype html>
+<html lang="hu">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Meleg-e?</title>
+    <style>
+        /* ===== ALAP BODY ===== */
+        body {
+            margin: 0;
+            font-family: Inter, Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url('https://a.pinatafarm.com/500x377/d972ce254e/2-gay-black-mens-kissing.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #1e2a36;
+            transition: background 0.5s ease;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        /* ===== ÁLTALÁNOS KÉPERNYŐ ===== */
+        .screen {
+            display: none;
+            width: 100%;
+            max-width: 700px;
+            padding: 20px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(6px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+            box-sizing: border-box;
+        }
+
+        .active {
+            display: block;
+        }
+
+        /* ===== START KÉPERNYŐ ===== */
+        #startScreen {
+            background: transparent;
+            color: white;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+            padding: 40px 20px;
+            border-radius: 12px;
+            box-shadow: 0 8px 40px rgba(7, 20, 34, 0.45);
+        }
+
+        h1, h2 {
+            text-align: center;
+            margin-top: 0;
+            color: inherit;
+            word-wrap: break-word;
+        }
+
+        p {
+            color: inherit;
+            word-wrap: break-word;
+        }
+
+        /* ===== GOMBOK ===== */
+        .btn {
+            display: inline-block;
+            background: #1d72e7;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 100%;
+            max-width: 250px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+            .btn:hover {
+                background: #155ab8;
+            }
+
+        /* ===== KÉRDÉSEK ÉS VÁLASZOK ===== */
+        .question {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #1e2a36;
+            word-wrap: break-word;
+        }
+
+        .answers {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .answer {
+            padding: 12px;
+            background: #e0e6ef;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            word-wrap: break-word;
+            font-size: 16px;
+        }
+
+            .answer:hover {
+                background: #d2dbea;
+            }
+
+        .selected {
+            border-color: #1d72e7;
+            background: #dce7f7;
+        }
+
+        /* ===== SZÖVEGES BEVITEL ===== */
+        .text-input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #b7c3d1;
+            background: white;
+            font-size: 15px;
+            box-sizing: border-box;
+        }
+
+        /* ===== KÉP A KÉRDÉSHEZ ===== */
+        .question-img {
+            width: 100%;
+            max-height: 500px;
+            object-fit: contain;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        /* ===== HALADÁSJELZŐ ===== */
+        .progress {
+            height: 10px;
+            width: 100%;
+            background: #c7d3e0;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+            .progress i {
+                display: block;
+                height: 100%;
+                width: 0;
+                background: #1d72e7;
+                transition: 0.4s;
+            }
+
+        /* ===== MOGGER KÉPERNYŐ ===== */
+        #moggerScreen {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0,0,0,0.5);
+            color: white;
+            font-size: 12vw;
+            font-weight: bold;
+            text-shadow: 0 0 20px black, 0 0 30px black;
+            text-align: center;
+            backdrop-filter: blur(5px);
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+            #moggerScreen.active {
+                display: flex;
+            }
+
+        /* ===== MEDIA QUERIES ===== */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 28px;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+
+            .question {
+                font-size: 16px;
+            }
+
+            .answer {
+                font-size: 14px;
+                padding: 10px;
+            }
+
+            .btn {
+                font-size: 14px;
+                padding: 10px;
+                max-width: 100%;
+            }
+
+            .progress {
+                height: 8px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 24px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            .question {
+                font-size: 14px;
+            }
+
+            .answer {
+                font-size: 13px;
+                padding: 8px;
+            }
+
+            .btn {
+                font-size: 13px;
+                padding: 8px;
+            }
+
+            #moggerScreen {
+                font-size: 16vw;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- KEZDŐ KÉPERNYŐ -->
+    <div id="startScreen" class="screen active">
+        <h1>MELEG TESZT</h1>
+        <p style="text-align:center;max-width:500px;margin:0 auto;">18 kérdésre adott válaszai alapján döntjük el, hogy maga meleg vagy sem!</p>
+        <div style="text-align:center;">
+            <button class="btn" id="startBtn">Teszt indítása</button>
+        </div>
+    </div>
+
+    <!-- KÉRDÉSEK -->
+    <div id="quizScreen" class="screen">
+        <div class="toprow">
+            <span id="counter"></span>
+        </div>
+        <div class="progress"><i id="progBar"></i></div>
+        <div id="questionContainer"></div>
+        <div class="answers" id="answers"></div>
+        <div style="margin-top:25px;text-align:right;">
+            <button class="btn" id="nextBtn">Következő</button>
+        </div>
+    </div>
+
+    <!-- EREDMÉNY -->
+    <div id="results" class="screen">
+        <h2 id="resultTitle">Eredmény</h2>
+        <p id="interpret"></p>
+    </div>
+
+    <!-- MOGGER KÉPERNYŐ -->
+    <div id="moggerScreen">
+        MOGGER
+    </div>
+
+    <script>
+        const questions = [
+            { type: 'mc', text: "Ön milyen nemű?", choices: [{ text: 'Férfi', value: 2 }, { text: 'Nő', value: -2 }] },
+            { type: 'mc', text: "Melyik nemhez vonzódik inkább?", choices: [{ text: 'Csak az ellenkezőhöz', value: 2 }, { text: 'Mindkettőhöz', value: 0 }, { text: 'Csak az azonoshoz', value: -2 }] },
+            { type: 'mc', text: "Fantáziájában milyen nemű partner szerepel gyakrabban?", choices: [{ text: 'Ellenkező nemű', value: 2 }, { text: 'Azonos nemű', value: -2 }, { text: 'Változó', value: 0 }] },
+            { image: 'https://www.researchgate.net/publication/266873715/figure/fig1/AS:643207679442956@1530364069957/Three-hard-Google-CAPTCHA-images.png', type: 'text', text: "Írja le az egyik betűsorrendet e-kettő közül." },
+            { type: 'mc', text: "3x−2x+2=1 Mennyi x?", choices: [{ text: '1', value: -1 }, { text: '0', value: 0 }, { text: '-1', value: 2 }] },
+            { type: 'mc', text: "Hogyan ejtik helyesen? [idéglenes] vagy [ideiglenes]", choices: [{ text: 'Idéglenes', value: -1 }, { text: 'Mind kettő elfogadható', value: 2 }, { text: 'Ideiglenes', value: -1 }] },
+            { image: 'https://preview.redd.it/uq406jrqafw41.jpg?width=640&crop=smart&auto=webp&s=9cc7eae885dce4d36bc3c9ba4d7867c4f912c508', type: 'text', text: "Írja le mit lát a képen." },
+            { type: 'mc', text: "Melyik a kedvenc színe?", choices: [{ text: 'Kék', value: 1 }, { text: 'Rózsaszín', value: -2 }, { text: 'Zöld', value: 0 }] },
+            { image: 'https://i2-prod.irishstar.com/article34305487.ece/ALTERNATES/s1200c/0_frog-and-horse-optical-illusion.jpg', type: 'mc', text: "Melyik állatot látja a képen?", choices: [{ text: 'Sündisznó', value: 1 }, { text: 'Nyúl', value: 1 }] },
+            { image: 'https://compote.slate.com/images/bdbaa19e-2c8f-435e-95ca-a93429d486fe.jpg', type: 'mc', text: "Hány pont van a képen?", choices: [{ text: '6', value: -1 }, { text: '14', value: -1 }, { text: '8', value: -1 }, { text: '12', value: 1 }] },
+            { image: 'https://cdn.discordapp.com/attachments/1425185800722841632/1442221737466138784/222bd0786540d60837e7854c49498651.png?ex=6924a529&is=692353a9&hm=e61ff8818c8d6124af86aae4c6e040440a4974de4fb38d44771c7c98571d8b4a&', type: 'mc', text: "Milyen számot látsz a kápen?", choices: [{ text: '3', value: -1 }, { text: '6', value: -1 }, { text: '9', value: -1 }, { text: '12', value: -1 }] },
+            { image: 'https://cdn.mos.cms.futurecdn.net/abyCNUqfwjUPnof2mSK3hY.gif', type: 'mc', text: "Merre felé halad a ló?", choices: [{ text: '-->', value: -1 }, { text: '<--', value: -1 }] },
+            { image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Color_icon_brown_v2.svg/250px-Color_icon_brown_v2.svg.png', type: 'text', text: "Melyik a barna ezek közül? (1 vagy 2)" },
+            { type: 'mc', text: "Folytassa a számsort: 16, 06, 68, 88, _, 98", choices: [{ text: '51', value: -1 }, { text: '63', value: -1 }, { text: '82', value: -1 }, { text: '66', value: -1 }, { text: '78', value: 1 }, { text: '87', value: 1 }, { text: '68', value: -1 }, { text: '33', value: -1 }] },
+            { image: 'https://i.redd.it/v423ne3d94md1.jpeg', type: 'mc', text: "Hány pillárt lát a képen?", choices: [{ text: '2', value: -1 }, { text: '3', value: -1 }, { text: '1', value: 1 }] },
+            { type: 'mc', text: "Helyezze be a megfelelő elemet: _____, én meleg vagyok", choices: [{ text: 'Igen', value: -1 }, { text: 'Nem', value: -1 }, { text: 'Talán', value: -1 }, { text: '*Üresen hagy*', value: -1 }] },
+            { type: 'mc', text: "Csak egyet válaszhatsz, válaszd óvatosan!", choices: [{ text: 'egyet', value: -1 }, { text: 'óvatosan', value: -1 }] },
+            { image: 'https://cdn.discordapp.com/attachments/1425185800722841632/1442228285261217852/IMG_5556.png?ex=6924ab42&is=692359c2&hm=dc9b14212ed441dcd0a5d8f1b464cf7dde1a355a0802c978840228f8b1f8fd57&', type: 'text', text: "Melyik ország nevét satíroztam ki?" }
+        ];
+
+        let idx = 0;
+        let selections = Array(questions.length).fill(null);
+
+        const startScreen = document.getElementById('startScreen');
+        const quizScreen = document.getElementById('quizScreen');
+        const results = document.getElementById('results');
+        const moggerScreen = document.getElementById('moggerScreen');
+        const questionContainer = document.getElementById('questionContainer');
+        const answersDiv = document.getElementById('answers');
+        const nextBtn = document.getElementById('nextBtn');
+        const progBar = document.getElementById('progBar');
+        const counter = document.getElementById('counter');
+        const resultTitle = document.getElementById('resultTitle');
+        const interpret = document.getElementById('interpret');
+        const startBtn = document.getElementById('startBtn');
+
+        startBtn.onclick = () => {
+            startScreen.classList.remove('active');
+            quizScreen.classList.add('active');
+            render();
+        };
+
+        function render() {
+            const currentQuestion = questions[idx];
+
+            counter.textContent = `${idx + 1} / ${questions.length}`;
+            progBar.style.width = ((idx) / questions.length) * 100 + '%';
+
+            questionContainer.innerHTML = '';
+            answersDiv.innerHTML = '';
+
+            if (currentQuestion.image) {
+                const img = document.createElement('img');
+                img.src = currentQuestion.image;
+                img.className = 'question-img';
+                questionContainer.appendChild(img);
+            }
+
+            const qText = document.createElement('div');
+            qText.className = 'question';
+            qText.textContent = currentQuestion.text;
+            questionContainer.appendChild(qText);
+
+            if (currentQuestion.type === 'mc') {
+                currentQuestion.choices.forEach((choice, i) => {
+                    let div = document.createElement('div');
+                    div.className = 'answer';
+                    if (selections[idx] === i) div.classList.add('selected');
+                    div.textContent = choice.text;
+                    div.onclick = () => select(i);
+                    answersDiv.appendChild(div);
+                });
+            } else if (currentQuestion.type === 'text') {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.className = 'text-input';
+                input.placeholder = 'Írd ide a válaszod...';
+                input.value = selections[idx] || '';
+                input.oninput = () => { selections[idx] = input.value; };
+                answersDiv.appendChild(input);
+            }
+
+            nextBtn.textContent = idx === questions.length - 1 ? "Kiértékelés" : "Következő";
+        }
+
+        function select(optionIndex) {
+            selections[idx] = optionIndex;
+            render();
+        }
+
+        nextBtn.onclick = () => {
+            if (selections[idx] === null || selections[idx] === '') {
+                alert('Előbb válassz vagy írj egy választ!');
+                return;
+            }
+            if (idx < questions.length - 1) {
+                idx++;
+                render();
+            } else {
+                finish();
+            }
+        };
+
+        function finish() {
+            quizScreen.classList.remove('active');
+
+            const rand = Math.random();
+            if (rand < 0.6) {
+                results.classList.add('active');
+                resultTitle.style.display = 'none';
+                interpret.textContent = 'Ön meleg';
+                interpret.style.textAlign = 'center';
+                interpret.style.fontWeight = 'bold';
+                interpret.style.fontSize = '28px';
+
+                document.body.style.backgroundColor = 'pink';
+                document.body.style.backgroundImage = 'linear-gradient(to right, #ff8a8a, #ffb38a, #fff28a, #b3ff8a, #8affb3, #8afff2, #8ab3ff, #b38aff)';
+                results.style.color = '#333';
+                results.style.textShadow = '0 2px 3px rgba(255, 192, 203,1.7)';
+            } else {
+                moggerScreen.classList.add('active');
+                document.body.style.backgroundImage = "url('https://i.redd.it/i-wanted-to-challenge-myself-and-drew-the-roman-statue-meme-v0-tqtgk0xwpw3e1.jpg?width=767&format=pjpg&auto=webp&s=09c4167c95534344dc73477bd8d460aaa655357c')";
+            }
+        }
+    </script>
+</body>
+</html>
